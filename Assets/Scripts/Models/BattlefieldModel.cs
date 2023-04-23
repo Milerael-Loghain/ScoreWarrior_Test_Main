@@ -1,32 +1,33 @@
 ﻿using System.Collections.Generic;
 using Scorewarrior.Test.Views;
+using Scorewarrior.Test.Models.Characters;
 using UnityEngine;
 
 namespace Scorewarrior.Test.Models
 {
-	public class Battlefield
+	public class BattlefieldModel
 	{
 		private readonly Dictionary<uint, List<Vector3>> _spawnPositionsByTeam;
-		private readonly Dictionary<uint, List<Character>> _charactersByTeam;
+		private readonly Dictionary<uint, List<CharacterModel>> _charactersByTeam;
 
 		private bool _paused;
 
-		public Battlefield(Dictionary<uint, List<Vector3>> spawnPositionsByTeam)
+		public BattlefieldModel(Dictionary<uint, List<Vector3>> spawnPositionsByTeam)
 		{
 			_spawnPositionsByTeam = spawnPositionsByTeam;
-			_charactersByTeam = new Dictionary<uint, List<Character>>();
+			_charactersByTeam = new Dictionary<uint, List<CharacterModel>>();
 		}
 
-		public void Start(CharacterPrefab[] prefabs)
+		public void Start(CharacterView[] prefabs)
 		{
 			_paused = false;
 			_charactersByTeam.Clear();
 
-			List<CharacterPrefab> availablePrefabs = new List<CharacterPrefab>(prefabs);
+			List<CharacterView> availablePrefabs = new List<CharacterView>(prefabs);
 			foreach (var positionsPair in _spawnPositionsByTeam)
 			{
 				List<Vector3> positions = positionsPair.Value;
-				List<Character> characters = new List<Character>();
+				List<CharacterModel> characters = new List<CharacterModel>();
 				_charactersByTeam.Add(positionsPair.Key, characters);
 				int i = 0;
 				while (i < positions.Count && availablePrefabs.Count > 0)
@@ -39,18 +40,18 @@ namespace Scorewarrior.Test.Models
 			}
 		}
 
-		public bool TryGetNearestAliveEnemy(Character character, out Character target)
+		public bool TryGetNearestAliveEnemy(CharacterModel characterModel, out CharacterModel target)
 		{
-			if (TryGetTeam(character, out uint team))
+			if (TryGetTeam(characterModel, out uint team))
 			{
-				Character nearestEnemy = null;
+				CharacterModel nearestEnemy = null;
 				float nearestDistance = float.MaxValue;
-				List<Character> enemies = team == 1 ? _charactersByTeam[2] : _charactersByTeam[1];
-				foreach (Character enemy in enemies)
+				List<CharacterModel> enemies = team == 1 ? _charactersByTeam[2] : _charactersByTeam[1];
+				foreach (CharacterModel enemy in enemies)
 				{
 					if (enemy.IsAlive)
 					{
-						float distance = Vector3.Distance(character.Position, enemy.Position);
+						float distance = Vector3.Distance(characterModel.Position, enemy.Position);
 						if (distance < nearestDistance)
 						{
 							nearestDistance = distance;
@@ -65,12 +66,12 @@ namespace Scorewarrior.Test.Models
 			return false;
 		}
 
-		public bool TryGetTeam(Character target, out uint team)
+		public bool TryGetTeam(CharacterModel target, out uint team)
 		{
 			foreach (var charactersPair in _charactersByTeam)
 			{
-				List<Character> characters = charactersPair.Value;
-				foreach (Character character in characters)
+				List<CharacterModel> characters = charactersPair.Value;
+				foreach (CharacterModel character in characters)
 				{
 					if (character == target)
 					{
@@ -89,8 +90,8 @@ namespace Scorewarrior.Test.Models
 			{
 				foreach (var charactersPair in _charactersByTeam)
 				{
-					List<Character> characters = charactersPair.Value;
-					foreach (Character character in characters)
+					List<CharacterModel> characters = charactersPair.Value;
+					foreach (CharacterModel character in characters)
 					{
 						character.Update(deltaTime);
 					}
@@ -98,11 +99,11 @@ namespace Scorewarrior.Test.Models
 			}
 		}
 
-		private static Character CreateCharacterAt(CharacterPrefab prefab, Battlefield battlefield, Vector3 position)
+		private static CharacterModel CreateCharacterAt(CharacterView view, BattlefieldModel battlefieldModel, Vector3 position)
 		{
-			CharacterPrefab character = Object.Instantiate(prefab);
+			CharacterView character = Object.Instantiate(view);
 			character.transform.position = position;
-			return new Character(character, new Weapon(character.Weapon), battlefield);
+			return new CharacterModel(character, new WeaponModel(character.Weapon), battlefieldModel);
 		}
 	}
 }

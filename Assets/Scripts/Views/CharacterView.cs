@@ -2,9 +2,9 @@
 
 namespace Scorewarrior.Test.Views
 {
-	public class CharacterPrefab : MonoBehaviour
+	public class CharacterView : MonoBehaviour
 	{
-		public WeaponPrefab Weapon;
+		public WeaponView Weapon;
 		public Animator Animator;
 
 		[SerializeField]

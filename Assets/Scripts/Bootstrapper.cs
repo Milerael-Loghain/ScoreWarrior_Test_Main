@@ -8,11 +8,11 @@ namespace Scorewarrior.Test
 	public class Bootstrapper : MonoBehaviour
 	{
 		[SerializeField]
-		private CharacterPrefab[] _characters;
+		private CharacterView[] _characters;
 		[SerializeField]
 		private SpawnPoint[] _spawns;
 
-		private Battlefield _battlefield;
+		private BattlefieldModel _battlefieldModel;
 
 		public void Start()
 		{
@@ -30,13 +30,13 @@ namespace Scorewarrior.Test
 				}
 				Destroy(spawn.gameObject);
 			}
-			_battlefield = new Battlefield(spawnPositionsByTeam);
-			_battlefield.Start(_characters);
+			_battlefieldModel = new BattlefieldModel(spawnPositionsByTeam);
+			_battlefieldModel.Start(_characters);
 		}
 
 		public void Update()
 		{
-			_battlefield.Update(Time.deltaTime);
+			_battlefieldModel.Update(Time.deltaTime);
 		}
 
 

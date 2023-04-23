@@ -1,18 +1,19 @@
 ﻿using Scorewarrior.Test.Descriptors;
 using Scorewarrior.Test.Models;
+using Scorewarrior.Test.Models.Characters;
 using UnityEngine;
 
 namespace Scorewarrior.Test.Views
 {
-	public class BulletPrefab : MonoBehaviour
+	public class BulletView : MonoBehaviour
 	{
-		private Character _target;
-		private WeaponPrefab _weapon;
+		private CharacterModel _target;
+		private WeaponModel _weaponModel;
 		private bool _hit;
 
-		public void Init(WeaponPrefab weapon, Character target, bool hit)
+		public void Init(WeaponModel weaponModel, CharacterModel target, bool hit)
 		{
-			_weapon = weapon;
+			_weaponModel = weaponModel;
 			_target = target;
 			_hit = hit;
 		}
@@ -27,8 +28,8 @@ namespace Scorewarrior.Test.Views
 			{
 				if (_hit)
 				{
-					WeaponDescriptor weaponDescriptor = _weapon.GetComponent<WeaponDescriptor>();
-					CharacterDescriptor targetDescriptor = _target.Prefab.GetComponent<CharacterDescriptor>();
+					WeaponDescriptor weaponDescriptor = _weaponModel.Descriptor;
+					CharacterDescriptor targetDescriptor = _target.Descriptor;
 					float damage = weaponDescriptor.Damage;
 					if (_target.Armor > 0)
 					{
@@ -40,7 +41,7 @@ namespace Scorewarrior.Test.Views
 					}
 					if (_target.Armor <= 0 && _target.Health <= 0)
 					{
-						_target.Prefab.Animator.SetTrigger("die");
+						_target.View.Animator.SetTrigger("die");
 					}
 				}
 				Destroy(gameObject);
