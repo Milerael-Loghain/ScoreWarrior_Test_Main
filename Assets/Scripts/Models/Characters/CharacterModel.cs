@@ -98,5 +98,21 @@ namespace Scorewarrior.Test.Models.Characters
         {
             return _battlefieldModel.TryGetNearestAliveEnemy(this, out target);
         }
+
+        public void HandleDamage(float damage)
+        {
+            if (_armor > 0)
+            {
+                _armor -= damage;
+            }
+            else if (_health > 0)
+            {
+                _health -= damage;
+            }
+            if (_armor <= 0 && _health <= 0)
+            {
+                _view.SetAnimatorTrigger(CharacterAnimationVariables.DIE);
+            }
+        }
     }
 }
