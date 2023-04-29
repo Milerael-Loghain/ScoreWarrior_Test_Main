@@ -1,4 +1,5 @@
 using Scorewarrior.Test.Descriptors;
+using Scorewarrior.Test.Views;
 
 namespace Scorewarrior.Test.Models.Characters
 {
@@ -12,8 +13,9 @@ namespace Scorewarrior.Test.Models.Characters
 
         public override void Enter()
         {
-            CharacterModel.View.Animator.SetBool("aiming", true);
-            CharacterModel.View.Animator.SetBool("reloading", false);
+            CharacterModel.View.SetAnimatorBool(CharacterAnimationVariables.AIMING, true);
+            CharacterModel.View.SetAnimatorBool(CharacterAnimationVariables.RELOADING, false);
+
             _aimTime = CharacterModel.Descriptor.AimTime;
             CharacterModel.AimAt(CharacterModel.CurrentTarget);
         }

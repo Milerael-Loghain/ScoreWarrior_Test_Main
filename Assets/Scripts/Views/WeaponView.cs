@@ -6,9 +6,9 @@ namespace Scorewarrior.Test.Views
 	{
 		public Transform BarrelTransform;
 
-		public BulletView BulletView => bulletView;
+		public BulletView BulletPrefab => bulletPrefab;
 
 		[SerializeField]
-		private BulletView bulletView;
+		private BulletView bulletPrefab;
 	}
 }

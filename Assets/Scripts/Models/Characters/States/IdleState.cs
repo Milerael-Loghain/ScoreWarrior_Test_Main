@@ -1,4 +1,5 @@
 ﻿using Scorewarrior.Test.Models.Characters;
+using Scorewarrior.Test.Views;
 
 public class IdleState : CharacterState
 {
@@ -8,19 +9,18 @@ public class IdleState : CharacterState
 
     public override void Enter()
     {
-        CharacterModel.View.Animator.SetBool("aiming", false);
-        CharacterModel.View.Animator.SetBool("reloading", false);
+    }
+
+    public override void Update(float deltaTime)
+    {
+        CharacterModel.View.SetAnimatorBool(CharacterAnimationVariables.AIMING, false);
+        CharacterModel.View.SetAnimatorBool(CharacterAnimationVariables.RELOADING, false);
 
         if (CharacterModel.TryGetNearestAliveEnemy(out CharacterModel target))
         {
             CharacterModel.CurrentTarget = target;
             CharacterModel.SetState(new AimingState(CharacterModel));
         }
-    }
-
-    public override void Update(float deltaTime)
-    {
-
     }
 
     public override void Exit()

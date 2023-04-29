@@ -41,7 +41,7 @@ namespace Scorewarrior.Test.Views
 					}
 					if (_target.Armor <= 0 && _target.Health <= 0)
 					{
-						_target.View.Animator.SetTrigger("die");
+						_target.View.SetAnimatorTrigger(CharacterAnimationVariables.DIE);
 					}
 				}
 				Destroy(gameObject);

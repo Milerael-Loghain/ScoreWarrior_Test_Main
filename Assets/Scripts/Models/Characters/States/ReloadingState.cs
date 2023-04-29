@@ -1,3 +1,5 @@
+using Scorewarrior.Test.Views;
+
 namespace Scorewarrior.Test.Models.Characters
 {
     public class ReloadingState : CharacterState
@@ -12,9 +14,9 @@ namespace Scorewarrior.Test.Models.Characters
 
         public override void Enter()
         {
-            CharacterModel.View.Animator.SetBool("aiming", false);
-            CharacterModel.View.Animator.SetBool("reloading", true);
-            CharacterModel.View.Animator.SetFloat("reload_time", _reloadTime / 3.3f);
+            CharacterModel.View.SetAnimatorBool(CharacterAnimationVariables.AIMING, true);
+            CharacterModel.View.SetAnimatorBool(CharacterAnimationVariables.RELOADING, true);
+            CharacterModel.View.SetAnimatorFloat(CharacterAnimationVariables.RELOAD_TIME, _reloadTime / 3.3f);
             _timeLeft = _reloadTime;
         }
 
@@ -41,8 +43,8 @@ namespace Scorewarrior.Test.Models.Characters
 
         public override void Exit()
         {
-            CharacterModel.View.Animator.SetBool("aiming", false);
-            CharacterModel.View.Animator.SetBool("reloading", false);
+            CharacterModel.View.SetAnimatorBool(CharacterAnimationVariables.AIMING, false);
+            CharacterModel.View.SetAnimatorBool(CharacterAnimationVariables.RELOADING, false);
         }
     }
 }

@@ -40,7 +40,7 @@ namespace Scorewarrior.Test.Models
 			{
 				_ammo -= 1;
 
-				var bulletObject = Object.Instantiate(_view.BulletView);
+				var bulletObject = Object.Instantiate(_view.BulletPrefab);
 				bulletObject.transform.position = _view.BarrelTransform.position;
 				bulletObject.Init(this, characterModel, hit);
 

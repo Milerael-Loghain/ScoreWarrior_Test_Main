@@ -56,6 +56,8 @@ namespace Scorewarrior.Test.Models.Characters
 
         public void Update(float deltaTime)
         {
+            if (!IsAlive) return;
+
             _state.Update(deltaTime);
         }
 
@@ -74,7 +76,7 @@ namespace Scorewarrior.Test.Models.Characters
         public void FireAt(CharacterModel target, bool hit)
         {
             _weaponModel.Fire(target, hit);
-            _view.Animator.SetTrigger("shoot");
+            _view.SetAnimatorTrigger(CharacterAnimationVariables.SHOOT);
         }
 
         public void Reload()
