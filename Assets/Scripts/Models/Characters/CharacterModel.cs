@@ -6,27 +6,23 @@ namespace Scorewarrior.Test.Models.Characters
 {
     public class CharacterModel
     {
-        private CharacterState _state;
-
         private readonly CharacterView _view;
         private readonly CharacterDescriptor _descriptor;
         private readonly WeaponModel _weaponModel;
+        private readonly BattlefieldModel _battlefieldModel;
 
         public CharacterView View => _view;
         public CharacterDescriptor Descriptor => _descriptor;
         public WeaponModel WeaponModel => _weaponModel;
 
-        private readonly BattlefieldModel _battlefieldModel;
-
-        private float _health;
-        private float _armor;
-
-
         public CharacterModel CurrentTarget { get; set; }
 
-        private float _time;
+        private CharacterState _state;
+        private float _health;
+        private float _armor;
+        private uint _team;
 
-        public CharacterModel(CharacterView view, WeaponModel weaponModel, BattlefieldModel battlefieldModel)
+        public CharacterModel(uint team, CharacterView view, WeaponModel weaponModel, BattlefieldModel battlefieldModel)
         {
             _view = view;
             _weaponModel = weaponModel;
@@ -34,23 +30,18 @@ namespace Scorewarrior.Test.Models.Characters
             _descriptor = _view.GetComponent<CharacterDescriptor>();
             _health = _descriptor.MaxHealth;
             _armor = _descriptor.MaxArmor;
+            _team = team;
+
+            view.SetTeam(_team);
+            view.HealthBar.SetMaxValue(_descriptor.MaxHealth);
+            view.ArmorBar.SetMaxValue(_descriptor.MaxArmor);
+
+            view.SetHudActiveState(true);
 
             SetState(new IdleState(this));
         }
 
         public bool IsAlive => _health > 0 || _armor > 0;
-
-        public float Health
-        {
-            get => _health;
-            set => _health = value;
-        }
-
-        public float Armor
-        {
-            get => _armor;
-            set => _armor = value;
-        }
 
         public Vector3 Position => _view.transform.position;
 
@@ -104,15 +95,22 @@ namespace Scorewarrior.Test.Models.Characters
             if (_armor > 0)
             {
                 _armor -= damage;
+                _armor = Mathf.Clamp(_armor, 0, _descriptor.MaxArmor);
+
+                _view.ArmorBar.SetValue(_armor);
             }
             else if (_health > 0)
             {
                 _health -= damage;
+                _health = Mathf.Clamp(_health, 0, _descriptor.MaxHealth);
+
+                _view.HealthBar.SetValue(_health);
             }
-            if (_armor <= 0 && _health <= 0)
-            {
-                _view.SetAnimatorTrigger(CharacterAnimationVariables.DIE);
-            }
+
+            if (IsAlive) return;
+
+            _view.SetAnimatorTrigger(CharacterAnimationVariables.DIE);
+            _view.SetHudActiveState(false);
         }
     }
 }

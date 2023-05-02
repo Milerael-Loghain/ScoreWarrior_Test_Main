@@ -27,13 +27,14 @@ namespace Scorewarrior.Test.Models
 			foreach (var positionsPair in _spawnPositionsByTeam)
 			{
 				List<Vector3> positions = positionsPair.Value;
+				uint team = positionsPair.Key;
 				List<CharacterModel> characters = new List<CharacterModel>();
-				_charactersByTeam.Add(positionsPair.Key, characters);
+				_charactersByTeam.Add(team, characters);
 				int i = 0;
 				while (i < positions.Count && availablePrefabs.Count > 0)
 				{
 					int index = Random.Range(0, availablePrefabs.Count);
-					characters.Add(CreateCharacterAt(availablePrefabs[index], this, positions[i]));
+					characters.Add(CreateCharacterAt(team, availablePrefabs[index], this, positions[i]));
 					availablePrefabs.RemoveAt(index);
 					i++;
 				}
@@ -99,11 +100,11 @@ namespace Scorewarrior.Test.Models
 			}
 		}
 
-		private static CharacterModel CreateCharacterAt(CharacterView view, BattlefieldModel battlefieldModel, Vector3 position)
+		private static CharacterModel CreateCharacterAt(uint team, CharacterView view, BattlefieldModel battlefieldModel, Vector3 position)
 		{
 			CharacterView character = Object.Instantiate(view);
 			character.transform.position = position;
-			return new CharacterModel(character, new WeaponModel(character.Weapon), battlefieldModel);
+			return new CharacterModel(team, character, new WeaponModel(character.Weapon), battlefieldModel);
 		}
 	}
 }
