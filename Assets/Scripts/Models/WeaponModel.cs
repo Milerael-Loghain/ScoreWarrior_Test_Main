@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Scorewarrior.Test.Descriptors;
 using Scorewarrior.Test.Models.Characters;
+using Scorewarrior.Test.Modifiers;
 using Scorewarrior.Test.Utility;
 using Scorewarrior.Test.Views;
 
@@ -19,11 +20,16 @@ namespace Scorewarrior.Test.Models
 
 		private readonly HashSet<BulletModel> _bulletModels;
 
-		public WeaponModel(WeaponView view)
+		public WeaponModel(WeaponView view, List<WeaponModifier> weaponModifiers)
 		{
 			_view = view;
 			var descriptor = view.GetComponent<WeaponDescriptor>();
 			_currentStats = descriptor.Stats.Clone();
+
+			foreach (var weaponModifier in weaponModifiers)
+			{
+				weaponModifier.Apply(_currentStats);
+			}
 
 			_bulletModels = new HashSet<BulletModel>();
 		}

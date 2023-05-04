@@ -1,4 +1,5 @@
 ﻿using Scorewarrior.Test.Controllers;
+using Scorewarrior.Test.Data;
 using Scorewarrior.Test.Models;
 using Scorewarrior.Test.Views;
 using Scorewarrior.Test.Views.UI;
@@ -17,12 +18,15 @@ namespace Scorewarrior.Test
 		[SerializeField]
 		private GameMenuView _gameMenuView;
 
+		[SerializeField]
+		private ModifiersConfig _modifiersConfig;
+
 		private UIController _uiController;
 		private GameStateMachine _gameStateMachine;
 
 		private void Start()
 		{
-			_gameStateMachine = new GameStateMachine(_gameMenuView, _characters, _spawns);
+			_gameStateMachine = new GameStateMachine(_gameMenuView, _characters, _spawns, _modifiersConfig);
 			_uiController = new UIController(_gameStateMachine, _gameMenuView);
 		}
 

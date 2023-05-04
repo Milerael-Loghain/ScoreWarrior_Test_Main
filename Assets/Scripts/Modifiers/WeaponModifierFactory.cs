@@ -1,35 +1,19 @@
-using System;
 using System.Collections.Generic;
+using Scorewarrior.Test.Data;
 using Scorewarrior.Test.Descriptors;
-using Scorewarrior.Test.Utility;
-using Random = UnityEngine.Random;
 
 namespace Scorewarrior.Test.Modifiers
 {
     public static class WeaponModifierFactory
     {
-        public static List<WeaponModifier> CreateModifiers(int amount, int minValue, int maxValue)
+        public static List<WeaponModifier> CreateModifiers(ModifiersConfig modifiersConfig)
         {
             var modifiers = new List<WeaponModifier>();
 
-            for (int i = 0; i < amount; i++)
+            for (int i = 0; i < modifiersConfig.WeaponModifiersAmount; i++)
             {
-                var multipliers = new EnumDictionary<WeaponStats, float>();
-                var stats = Enum.GetValues(typeof(WeaponStats));
-                var modifierStat = (WeaponStats) stats.GetValue(Random.Range(0, stats.Length));
-
-                foreach (var key in multipliers.keys)
-                {
-                    if (key == modifierStat)
-                    {
-                        multipliers[key] = Random.Range(minValue, maxValue);
-                    }
-                    else
-                    {
-                        multipliers[key] = 1;
-                    }
-                }
-
+                var multipliers =
+                    ModifierUtils.GenerateRandomMultipliers<WeaponStats>(modifiersConfig.MinWeaponValueModifier, modifiersConfig.MaxWeaponValueModifier);
                 var modifier = new WeaponModifier(multipliers);
                 modifiers.Add(modifier);
             }

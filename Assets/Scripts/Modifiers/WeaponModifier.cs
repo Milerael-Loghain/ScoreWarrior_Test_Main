@@ -3,10 +3,21 @@ using Scorewarrior.Test.Utility;
 
 namespace Scorewarrior.Test.Modifiers
 {
-    public class WeaponModifier : Modifier<WeaponStats>
+    public class WeaponModifier
     {
-        public WeaponModifier(EnumDictionary<WeaponStats, float> multipliers) : base(multipliers)
+        private readonly EnumDictionary<WeaponStats, float> WeaponMultipliers;
+
+        public WeaponModifier(EnumDictionary<WeaponStats, float> weaponMultipliers)
         {
+            WeaponMultipliers = weaponMultipliers;
+        }
+
+        public virtual void Apply(EnumDictionary<WeaponStats, float> weaponStats)
+        {
+            foreach (var key in WeaponMultipliers.keys)
+            {
+                weaponStats[key] *= WeaponMultipliers[key];
+            }
         }
     }
 }

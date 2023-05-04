@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Scorewarrior.Test.Data;
 using Scorewarrior.Test.Views;
 using Scorewarrior.Test.Views.UI;
 using UnityEngine;
@@ -10,16 +11,19 @@ namespace Scorewarrior.Test.Models
     {
         private readonly SpawnPoint[] _spawns;
         private readonly CharacterView[] _characters;
+        private readonly ModifiersConfig _modifiersConfig;
 
         private GameStates _state;
         private BattlefieldModel _battlefieldModel;
         private GameMenuView _gameMenuView;
 
-        public GameStateMachine(GameMenuView gameMenuView, CharacterView[] characters, SpawnPoint[] spawns)
+        public GameStateMachine(GameMenuView gameMenuView, CharacterView[] characters, SpawnPoint[] spawns, ModifiersConfig modifiersConfig)
         {
             _gameMenuView = gameMenuView;
             _characters = characters;
             _spawns = spawns;
+
+            _modifiersConfig = modifiersConfig;
 
             _state = GameStates.START;
         }
@@ -76,7 +80,7 @@ namespace Scorewarrior.Test.Models
                 }
             }
 
-            _battlefieldModel = new BattlefieldModel(spawnPositionsByTeam);
+            _battlefieldModel = new BattlefieldModel(spawnPositionsByTeam, _modifiersConfig);
             _battlefieldModel.Start(_characters);
 
             _state = GameStates.RUNTIME;

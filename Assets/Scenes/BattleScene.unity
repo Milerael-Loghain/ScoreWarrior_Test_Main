@@ -4576,6 +4576,7 @@ MonoBehaviour:
   - {fileID: 1795119211}
   - {fileID: 1890998154}
   _gameMenuView: {fileID: 1840650676}
+  _modifiersConfig: {fileID: 11400000, guid: bd6799deb477c4d2b8d569ff477495dc, type: 2}
 --- !u!4 &1439739022 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3662692028364167046, guid: 31360fad6811a0147a0c73dc285ef601, type: 3}

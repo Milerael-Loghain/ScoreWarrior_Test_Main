@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Scorewarrior.Test.Data;
 using Scorewarrior.Test.Views;
 using Scorewarrior.Test.Models.Characters;
+using Scorewarrior.Test.Modifiers;
 using UnityEngine;
 
 namespace Scorewarrior.Test.Models
@@ -11,12 +13,16 @@ namespace Scorewarrior.Test.Models
 		private readonly Dictionary<uint, List<Vector3>> _spawnPositionsByTeam;
 		private readonly Dictionary<uint, List<CharacterModel>> _charactersByTeam;
 
+		private readonly ModifiersConfig _modifiersConfig;
+
 		private bool _paused;
 
-		public BattlefieldModel(Dictionary<uint, List<Vector3>> spawnPositionsByTeam)
+		public BattlefieldModel(Dictionary<uint, List<Vector3>> spawnPositionsByTeam, ModifiersConfig modifiersConfig)
 		{
 			_spawnPositionsByTeam = spawnPositionsByTeam;
 			_charactersByTeam = new Dictionary<uint, List<CharacterModel>>();
+
+			_modifiersConfig = modifiersConfig;
 		}
 
 		public void Dispose()
@@ -122,11 +128,16 @@ namespace Scorewarrior.Test.Models
 			return false;
 		}
 
-		private static CharacterModel CreateCharacterAt(uint team, CharacterView view, BattlefieldModel battlefieldModel, Vector3 position)
+		private CharacterModel CreateCharacterAt(uint team, CharacterView view, BattlefieldModel battlefieldModel, Vector3 position)
 		{
 			CharacterView character = Object.Instantiate(view);
 			character.transform.position = position;
-			return new CharacterModel(team, character, new WeaponModel(character.Weapon), battlefieldModel);
+
+			var weaponModifiers = WeaponModifierFactory.CreateModifiers(_modifiersConfig);
+			var weaponModel = new WeaponModel(character.Weapon, weaponModifiers);
+
+			var characterModifiers = MainModifierFactory.CreateModifiers(_modifiersConfig);
+			return new CharacterModel(team, character, characterModifiers, weaponModel, battlefieldModel);
 		}
 	}
 }
