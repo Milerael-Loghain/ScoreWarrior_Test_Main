@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Scorewarrior.Test.Utility;
 using Scorewarrior.Test.Views.UI;
 using UnityEngine;
 
@@ -7,13 +8,6 @@ namespace Scorewarrior.Test.Views
 {
 	public class CharacterView : MonoBehaviour
 	{
-		[Serializable]
-		private struct AnimationStringToEnumValue
-		{
-			public CharacterAnimationVariables VariableEnumKey;
-			public string VariableStringKey;
-		}
-
 		[Serializable]
 		private struct TeamToColor
 		{
@@ -35,7 +29,7 @@ namespace Scorewarrior.Test.Views
 		private Animator Animator;
 
 		[SerializeField]
-		private List<AnimationStringToEnumValue> _animationKeys;
+		private EnumDictionary<CharacterAnimationVariables, string> _animationVariables;
 
 		[Header("Health Bars")]
 		[SerializeField]
@@ -57,9 +51,9 @@ namespace Scorewarrior.Test.Views
 		{
 			_animationVariablesHash = new Dictionary<CharacterAnimationVariables, int>();
 
-			foreach (var animationKey in _animationKeys)
+			foreach (var animationVariable in _animationVariables.keys)
 			{
-				_animationVariablesHash.Add(animationKey.VariableEnumKey, Animator.StringToHash(animationKey.VariableStringKey));
+				_animationVariablesHash.Add(animationVariable, Animator.StringToHash(_animationVariables[animationVariable]));
 			}
 		}
 

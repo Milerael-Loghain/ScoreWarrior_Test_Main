@@ -161,17 +161,14 @@ MonoBehaviour:
   Weapon: {fileID: 7007823911646588014}
   _rightPalm: {fileID: 4632178714803785565}
   Animator: {fileID: 8922303574578864297}
-  _animationKeys:
-  - VariableEnumKey: 0
-    VariableStringKey: aiming
-  - VariableEnumKey: 1
-    VariableStringKey: reloading
-  - VariableEnumKey: 2
-    VariableStringKey: reload_time
-  - VariableEnumKey: 3
-    VariableStringKey: die
-  - VariableEnumKey: 4
-    VariableStringKey: shoot
+  _animationVariables:
+    keys: 0000000001000000020000000300000004000000
+    values:
+    - aiming
+    - reloading
+    - reload_time
+    - die
+    - shoot
   _teamToColors:
   - TeamId: 1
     TeamColor: {r: 1, g: 0.10588236, b: 0, a: 1}

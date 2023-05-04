@@ -75,6 +75,13 @@ MonoBehaviour:
     VariableStringKey: die
   - VariableEnumKey: 4
     VariableStringKey: shoot
+  _animationVariables:
+    values:
+    - aiming
+    - reloading
+    - reload_time
+    - die
+    - shoot
   _teamToColors:
   - TeamId: 1
     TeamColor: {r: 1, g: 0.10588236, b: 0, a: 1}
