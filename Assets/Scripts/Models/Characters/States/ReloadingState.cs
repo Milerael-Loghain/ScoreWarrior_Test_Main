@@ -1,3 +1,4 @@
+using Scorewarrior.Test.Descriptors;
 using Scorewarrior.Test.Views;
 
 namespace Scorewarrior.Test.Models.Characters
@@ -9,7 +10,7 @@ namespace Scorewarrior.Test.Models.Characters
 
         public ReloadingState(CharacterModel characterModel) : base(characterModel)
         {
-            _reloadTime = characterModel.WeaponModel.Descriptor.ReloadTime;
+            _reloadTime = characterModel.WeaponModel.Descriptor.Stats[WeaponStats.RELOADTIME];
         }
 
         public override void Enter()

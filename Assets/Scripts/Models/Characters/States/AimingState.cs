@@ -16,7 +16,7 @@ namespace Scorewarrior.Test.Models.Characters
             CharacterModel.View.SetAnimatorBool(CharacterAnimationVariables.AIMING, true);
             CharacterModel.View.SetAnimatorBool(CharacterAnimationVariables.RELOADING, false);
 
-            _aimTime = CharacterModel.Descriptor.AimTime;
+            _aimTime = CharacterModel.Descriptor.Stats[CharacterStats.AIMTIME];
             CharacterModel.AimAt(CharacterModel.CurrentTarget);
         }
 

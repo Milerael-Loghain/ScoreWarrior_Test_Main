@@ -66,6 +66,14 @@ MonoBehaviour:
   FireRate: 3
   ClipSize: 30
   ReloadTime: 5
+  Stats:
+    keys: 0000000001000000020000000300000004000000
+    values:
+    - 6
+    - 0.7
+    - 3
+    - 30
+    - 5
 --- !u!1 &2852730555757880441
 GameObject:
   m_ObjectHideFlags: 0

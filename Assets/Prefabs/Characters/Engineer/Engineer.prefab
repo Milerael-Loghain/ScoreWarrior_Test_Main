@@ -64,18 +64,8 @@ MonoBehaviour:
   Weapon: {fileID: 7198119111691828770}
   _rightPalm: {fileID: 1864015352317427229}
   Animator: {fileID: 7017108912382628868}
-  _animationKeys:
-  - VariableEnumKey: 0
-    VariableStringKey: aiming
-  - VariableEnumKey: 1
-    VariableStringKey: reloading
-  - VariableEnumKey: 2
-    VariableStringKey: reload_time
-  - VariableEnumKey: 3
-    VariableStringKey: die
-  - VariableEnumKey: 4
-    VariableStringKey: shoot
   _animationVariables:
+    keys: 0000000001000000020000000300000004000000
     values:
     - aiming
     - reloading
@@ -107,6 +97,14 @@ MonoBehaviour:
   MaxHealth: 100
   MaxArmor: 200
   AimTime: 2
+  Stats:
+    keys: 0000000001000000020000000300000004000000
+    values:
+    - 0.8
+    - 0.1
+    - 100
+    - 200
+    - 2
 --- !u!1001 &4990778155039573568
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -391,6 +389,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1864015352317427229}
     m_Modifications:
+    - target: {fileID: 908425352074759097, guid: 9316b9f4b5ed2944eac304194df2cd23, type: 3}
+      propertyPath: Stats.values.Array.data[4]
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4683039967239180329, guid: 9316b9f4b5ed2944eac304194df2cd23, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 

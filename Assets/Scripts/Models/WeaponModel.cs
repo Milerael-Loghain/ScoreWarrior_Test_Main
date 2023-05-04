@@ -23,7 +23,7 @@ namespace Scorewarrior.Test.Models
 		{
 			_view = view;
 			_descriptor = view.GetComponent<WeaponDescriptor>();
-			_ammo = _descriptor.ClipSize;
+			_ammo = (uint)_descriptor.Stats[WeaponStats.CLIPSIZE];
 
 			_bulletModels = new HashSet<BulletModel>();
 		}
@@ -33,7 +33,7 @@ namespace Scorewarrior.Test.Models
 
 		public void Reload()
 		{
-			_ammo = _descriptor.ClipSize;
+			_ammo = (uint)_descriptor.Stats[WeaponStats.CLIPSIZE];
 		}
 
 		public void Fire(CharacterModel target, bool hit)
@@ -45,7 +45,7 @@ namespace Scorewarrior.Test.Models
 				var bulletModel = new BulletModel(_descriptor, _view.BulletPrefab, _view.BarrelTransform.position, target, hit);
 				_bulletModels.Add(bulletModel);
 
-				_time = 1.0f / _descriptor.FireRate;
+				_time = 1.0f / _descriptor.Stats[WeaponStats.FIRERATE];
 				_ready = false;
 			}
 		}

@@ -30,13 +30,13 @@ namespace Scorewarrior.Test.Models.Characters
             _weaponModel = weaponModel;
             _battlefieldModel = battlefieldModel;
             _descriptor = _view.GetComponent<CharacterDescriptor>();
-            _health = _descriptor.MaxHealth;
-            _armor = _descriptor.MaxArmor;
+            _health = _descriptor.Stats[CharacterStats.MAXHEALTH];
+            _armor = _descriptor.Stats[CharacterStats.MAXARMOR];
             _team = team;
 
             view.SetTeam(_team);
-            view.HealthBar.SetMaxValue(_descriptor.MaxHealth);
-            view.ArmorBar.SetMaxValue(_descriptor.MaxArmor);
+            view.HealthBar.SetMaxValue(_health);
+            view.ArmorBar.SetMaxValue(_armor);
 
             view.SetHudActiveState(true);
 
@@ -101,14 +101,14 @@ namespace Scorewarrior.Test.Models.Characters
             if (_armor > 0)
             {
                 _armor -= damage;
-                _armor = Mathf.Clamp(_armor, 0, _descriptor.MaxArmor);
+                _armor = Mathf.Clamp(_armor, 0, _descriptor.Stats[CharacterStats.MAXARMOR]);
 
                 _view.ArmorBar.SetValue(_armor);
             }
             else if (_health > 0)
             {
                 _health -= damage;
-                _health = Mathf.Clamp(_health, 0, _descriptor.MaxHealth);
+                _health = Mathf.Clamp(_health, 0, _descriptor.Stats[CharacterStats.MAXHEALTH]);
 
                 _view.HealthBar.SetValue(_health);
             }

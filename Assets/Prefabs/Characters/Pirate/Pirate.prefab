@@ -97,6 +97,14 @@ MonoBehaviour:
   MaxHealth: 100
   MaxArmor: 100
   AimTime: 2
+  Stats:
+    keys: 0000000001000000020000000300000004000000
+    values:
+    - 0.85
+    - 0.2
+    - 100
+    - 100
+    - 2
 --- !u!1001 &204051381636911772
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -163,6 +171,10 @@ PrefabInstance:
     - target: {fileID: 2100456161990318404, guid: d5bea6a02d9b89d46b2bb53aace5c35c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -9.646001
+      objectReference: {fileID: 0}
+    - target: {fileID: 4890922399526825098, guid: d5bea6a02d9b89d46b2bb53aace5c35c, type: 3}
+      propertyPath: Stats.values.Array.data[4]
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6107010108362425690, guid: d5bea6a02d9b89d46b2bb53aace5c35c, type: 3}
       propertyPath: m_Layer

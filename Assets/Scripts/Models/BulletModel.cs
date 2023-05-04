@@ -39,7 +39,7 @@ namespace Scorewarrior.Test.Models
             {
                 if (_hit)
                 {
-                    float damage = _weaponDescriptor.Damage;
+                    float damage = _weaponDescriptor.Stats[WeaponStats.DAMAGE];
                     _target.HandleDamage(damage);
                 }
 

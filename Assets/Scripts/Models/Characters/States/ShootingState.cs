@@ -1,3 +1,4 @@
+using Scorewarrior.Test.Descriptors;
 using Scorewarrior.Test.Views;
 using UnityEngine;
 
@@ -24,9 +25,9 @@ namespace Scorewarrior.Test.Models.Characters
                     if (CharacterModel.IsReady())
                     {
                         float random = Random.Range(0.0f, 1.0f);
-                        bool hit = random <= CharacterModel.Descriptor.Accuracy &&
-                                   random <= CharacterModel.WeaponModel.Descriptor.Accuracy &&
-                                   random >= CharacterModel.CurrentTarget.Descriptor.Dexterity;
+                        bool hit = random <= CharacterModel.Descriptor.Stats[CharacterStats.ACCURACY] &&
+                                   random <= CharacterModel.WeaponModel.Descriptor.Stats[WeaponStats.ACCURACY] &&
+                                   random >= CharacterModel.CurrentTarget.Descriptor.Stats[CharacterStats.DEXTERITY];
                         CharacterModel.FireAt(CharacterModel.CurrentTarget, hit);
                     }
                     else

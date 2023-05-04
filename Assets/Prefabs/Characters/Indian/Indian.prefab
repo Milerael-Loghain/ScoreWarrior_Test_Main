@@ -129,6 +129,14 @@ MonoBehaviour:
   MaxHealth: 100
   MaxArmor: 150
   AimTime: 4
+  Stats:
+    keys: 0000000001000000020000000300000004000000
+    values:
+    - 0.95
+    - 0.1
+    - 100
+    - 150
+    - 4
 --- !u!1 &176148652620336383
 GameObject:
   m_ObjectHideFlags: 0
@@ -505,6 +513,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3900042163149813639}
     m_Modifications:
+    - target: {fileID: 908425352074759097, guid: 9316b9f4b5ed2944eac304194df2cd23, type: 3}
+      propertyPath: Stats.values.Array.data[4]
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1423429276303387856, guid: 9316b9f4b5ed2944eac304194df2cd23, type: 3}
       propertyPath: m_Mesh
       value: 

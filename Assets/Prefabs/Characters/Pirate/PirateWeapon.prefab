@@ -97,6 +97,14 @@ MonoBehaviour:
   FireRate: 3
   ClipSize: 30
   ReloadTime: 4
+  Stats:
+    keys: 0000000001000000020000000300000004000000
+    values:
+    - 8
+    - 0.65
+    - 3
+    - 30
+    - 4
 --- !u!1001 &2873745438868429907
 PrefabInstance:
   m_ObjectHideFlags: 0
