@@ -25,9 +25,9 @@ namespace Scorewarrior.Test.Models.Characters
                     if (CharacterModel.IsReady())
                     {
                         float random = Random.Range(0.0f, 1.0f);
-                        bool hit = random <= CharacterModel.Descriptor.Stats[CharacterStats.ACCURACY] &&
-                                   random <= CharacterModel.WeaponModel.Descriptor.Stats[WeaponStats.ACCURACY] &&
-                                   random >= CharacterModel.CurrentTarget.Descriptor.Stats[CharacterStats.DEXTERITY];
+                        bool hit = random <= CharacterModel.CurrentStats[CharacterStats.ACCURACY] &&
+                                   random <= CharacterModel.WeaponModel.CurrentStats[WeaponStats.ACCURACY] &&
+                                   random >= CharacterModel.CurrentTarget.CurrentStats[CharacterStats.DEXTERITY];
                         CharacterModel.FireAt(CharacterModel.CurrentTarget, hit);
                     }
                     else

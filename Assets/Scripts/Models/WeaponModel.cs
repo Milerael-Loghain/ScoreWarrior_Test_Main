@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Scorewarrior.Test.Descriptors;
 using Scorewarrior.Test.Models.Characters;
+using Scorewarrior.Test.Utility;
 using Scorewarrior.Test.Views;
 
 namespace Scorewarrior.Test.Models
@@ -8,44 +9,43 @@ namespace Scorewarrior.Test.Models
 	public class WeaponModel
 	{
 		private readonly WeaponView _view;
-		private readonly WeaponDescriptor _descriptor;
+		private readonly EnumDictionary<WeaponStats, float> _currentStats;
 
-		public WeaponDescriptor Descriptor => _descriptor;
-
-		private uint _ammo;
+		public EnumDictionary<WeaponStats, float>  CurrentStats => _currentStats;
 
 		private bool _ready;
 		private float _time;
+		private uint _ammo;
 
 		private readonly HashSet<BulletModel> _bulletModels;
 
 		public WeaponModel(WeaponView view)
 		{
 			_view = view;
-			_descriptor = view.GetComponent<WeaponDescriptor>();
-			_ammo = (uint)_descriptor.Stats[WeaponStats.CLIPSIZE];
+			var descriptor = view.GetComponent<WeaponDescriptor>();
+			_currentStats = descriptor.Stats.Clone();
 
 			_bulletModels = new HashSet<BulletModel>();
 		}
 
 		public bool IsReady => _ready;
-		public bool HasAmmo => _ammo > 0;
+		public bool HasAmmo => _ammo  > 0;
 
 		public void Reload()
 		{
-			_ammo = (uint)_descriptor.Stats[WeaponStats.CLIPSIZE];
+			_ammo = (uint)_currentStats[WeaponStats.CLIPSIZE];
 		}
 
 		public void Fire(CharacterModel target, bool hit)
 		{
-			if (_ammo > 0)
+			if (_ammo  > 0)
 			{
-				_ammo -= 1;
+				_ammo  -= 1;
 
-				var bulletModel = new BulletModel(_descriptor, _view.BulletPrefab, _view.BarrelTransform.position, target, hit);
+				var bulletModel = new BulletModel(_currentStats, _view.BulletPrefab, _view.BarrelTransform.position, target, hit);
 				_bulletModels.Add(bulletModel);
 
-				_time = 1.0f / _descriptor.Stats[WeaponStats.FIRERATE];
+				_time = 1.0f / _currentStats[WeaponStats.FIRERATE];
 				_ready = false;
 			}
 		}

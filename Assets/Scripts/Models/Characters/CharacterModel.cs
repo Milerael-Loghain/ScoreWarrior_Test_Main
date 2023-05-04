@@ -1,4 +1,5 @@
 ﻿using Scorewarrior.Test.Descriptors;
+using Scorewarrior.Test.Utility;
 using Scorewarrior.Test.Views;
 using UnityEngine;
 
@@ -7,18 +8,18 @@ namespace Scorewarrior.Test.Models.Characters
     public class CharacterModel
     {
         private readonly CharacterView _view;
-        private readonly CharacterDescriptor _descriptor;
         private readonly WeaponModel _weaponModel;
         private readonly BattlefieldModel _battlefieldModel;
 
         public CharacterView View => _view;
-        public CharacterDescriptor Descriptor => _descriptor;
+        public EnumDictionary<CharacterStats, float> CurrentStats => _currentStats;
         public WeaponModel WeaponModel => _weaponModel;
         public CharacterModel CurrentTarget { get; set; }
 
         public bool IsAlive => _health > 0 || _armor > 0;
         public Vector3 Position => _view.transform.position;
 
+        private EnumDictionary<CharacterStats, float> _currentStats;
         private CharacterState _state;
         private float _health;
         private float _armor;
@@ -29,9 +30,10 @@ namespace Scorewarrior.Test.Models.Characters
             _view = view;
             _weaponModel = weaponModel;
             _battlefieldModel = battlefieldModel;
-            _descriptor = _view.GetComponent<CharacterDescriptor>();
-            _health = _descriptor.Stats[CharacterStats.MAXHEALTH];
-            _armor = _descriptor.Stats[CharacterStats.MAXARMOR];
+            var descriptor = _view.GetComponent<CharacterDescriptor>();
+            _currentStats = descriptor.Stats.Clone();
+            _health = _currentStats[CharacterStats.MAXHEALTH];
+            _armor = _currentStats[CharacterStats.MAXARMOR];
             _team = team;
 
             view.SetTeam(_team);
@@ -101,14 +103,14 @@ namespace Scorewarrior.Test.Models.Characters
             if (_armor > 0)
             {
                 _armor -= damage;
-                _armor = Mathf.Clamp(_armor, 0, _descriptor.Stats[CharacterStats.MAXARMOR]);
+                _armor = Mathf.Clamp(_armor, 0, _currentStats[CharacterStats.MAXARMOR]);
 
                 _view.ArmorBar.SetValue(_armor);
             }
             else if (_health > 0)
             {
                 _health -= damage;
-                _health = Mathf.Clamp(_health, 0, _descriptor.Stats[CharacterStats.MAXHEALTH]);
+                _health = Mathf.Clamp(_health, 0, _currentStats[CharacterStats.MAXHEALTH]);
 
                 _view.HealthBar.SetValue(_health);
             }

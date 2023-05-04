@@ -1,5 +1,6 @@
 using Scorewarrior.Test.Descriptors;
 using Scorewarrior.Test.Models.Characters;
+using Scorewarrior.Test.Utility;
 using Scorewarrior.Test.Views;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ namespace Scorewarrior.Test.Models
     public class BulletModel
     {
         private readonly CharacterModel _target;
-        private readonly WeaponDescriptor _weaponDescriptor;
+        private readonly EnumDictionary<WeaponStats, float> _weaponStats;
         private readonly BulletView _bulletView;
         private readonly bool _hit;
 
@@ -16,9 +17,9 @@ namespace Scorewarrior.Test.Models
 
         public bool IsDestroyed => _isDestroyed;
 
-        public BulletModel(WeaponDescriptor weaponDescriptor, BulletView bulletViewPrefab, Vector3 bulletSpawnPosition, CharacterModel target, bool hit)
+        public BulletModel(EnumDictionary<WeaponStats, float> weaponStats, BulletView bulletViewPrefab, Vector3 bulletSpawnPosition, CharacterModel target, bool hit)
         {
-            _weaponDescriptor = weaponDescriptor;
+            _weaponStats = weaponStats;
             _target = target;
             _hit = hit;
 
@@ -39,7 +40,7 @@ namespace Scorewarrior.Test.Models
             {
                 if (_hit)
                 {
-                    float damage = _weaponDescriptor.Stats[WeaponStats.DAMAGE];
+                    float damage = _weaponStats[WeaponStats.DAMAGE];
                     _target.HandleDamage(damage);
                 }
 

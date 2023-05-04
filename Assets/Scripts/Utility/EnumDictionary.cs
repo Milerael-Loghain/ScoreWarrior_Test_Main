@@ -19,5 +19,14 @@ namespace Scorewarrior.Test.Utility
             get => values[Convert.ToInt32(key)];
             set => values[Convert.ToInt32(key)] = value;
         }
+
+        public EnumDictionary<TKey, TValue> Clone()
+        {
+            var clone = new EnumDictionary<TKey, TValue>();
+            Array.Copy(keys, clone.keys, keys.Length);
+            Array.Copy(values, clone.values, values.Length);
+
+            return clone;
+        }
     }
 }
