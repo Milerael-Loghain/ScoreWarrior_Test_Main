@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Scorewarrior.Test.Views;
 using Scorewarrior.Test.Models.Characters;
 using UnityEngine;
@@ -16,6 +17,17 @@ namespace Scorewarrior.Test.Models
 		{
 			_spawnPositionsByTeam = spawnPositionsByTeam;
 			_charactersByTeam = new Dictionary<uint, List<CharacterModel>>();
+		}
+
+		public void Dispose()
+		{
+			foreach (var characterModels in _charactersByTeam.Values)
+			{
+				foreach (var characterModel in characterModels)
+				{
+					characterModel?.Dispose();
+				}
+			}
 		}
 
 		public void Start(CharacterView[] prefabs)
@@ -39,6 +51,31 @@ namespace Scorewarrior.Test.Models
 					i++;
 				}
 			}
+		}
+
+		public void Update(float deltaTime)
+		{
+			if (!_paused)
+			{
+				foreach (var charactersPair in _charactersByTeam)
+				{
+					List<CharacterModel> characters = charactersPair.Value;
+					foreach (CharacterModel character in characters)
+					{
+						character.Update(deltaTime);
+					}
+				}
+			}
+		}
+
+		public bool IsGameComplete()
+		{
+			foreach (var team in _charactersByTeam.Keys)
+			{
+				if (_charactersByTeam[team].All(character => !character.IsAlive)) return true;
+			}
+
+			return false;
 		}
 
 		public bool TryGetNearestAliveEnemy(CharacterModel characterModel, out CharacterModel target)
@@ -83,21 +120,6 @@ namespace Scorewarrior.Test.Models
 			}
 			team = default;
 			return false;
-		}
-
-		public void Update(float deltaTime)
-		{
-			if (!_paused)
-			{
-				foreach (var charactersPair in _charactersByTeam)
-				{
-					List<CharacterModel> characters = charactersPair.Value;
-					foreach (CharacterModel character in characters)
-					{
-						character.Update(deltaTime);
-					}
-				}
-			}
 		}
 
 		private static CharacterModel CreateCharacterAt(uint team, CharacterView view, BattlefieldModel battlefieldModel, Vector3 position)

@@ -14,8 +14,10 @@ namespace Scorewarrior.Test.Models.Characters
         public CharacterView View => _view;
         public CharacterDescriptor Descriptor => _descriptor;
         public WeaponModel WeaponModel => _weaponModel;
-
         public CharacterModel CurrentTarget { get; set; }
+
+        public bool IsAlive => _health > 0 || _armor > 0;
+        public Vector3 Position => _view.transform.position;
 
         private CharacterState _state;
         private float _health;
@@ -41,9 +43,13 @@ namespace Scorewarrior.Test.Models.Characters
             SetState(new IdleState(this));
         }
 
-        public bool IsAlive => _health > 0 || _armor > 0;
-
-        public Vector3 Position => _view.transform.position;
+        public void Dispose()
+        {
+            if (_view != null)
+            {
+                Object.Destroy(_view.gameObject);
+            }
+        }
 
         public void Update(float deltaTime)
         {

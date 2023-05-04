@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Scorewarrior.Test.Controllers;
 using Scorewarrior.Test.Models;
 using Scorewarrior.Test.Views;
+using Scorewarrior.Test.Views.UI;
 using UnityEngine;
 
 namespace Scorewarrior.Test
@@ -9,36 +10,31 @@ namespace Scorewarrior.Test
 	{
 		[SerializeField]
 		private CharacterView[] _characters;
+
 		[SerializeField]
 		private SpawnPoint[] _spawns;
 
-		private BattlefieldModel _battlefieldModel;
+		[SerializeField]
+		private GameMenuView _gameMenuView;
 
-		public void Start()
+		private UIController _uiController;
+		private GameStateMachine _gameStateMachine;
+
+		private void Start()
 		{
-			Dictionary<uint, List<Vector3>> spawnPositionsByTeam = new Dictionary<uint, List<Vector3>>();
-			foreach (SpawnPoint spawn in _spawns)
-			{
-				uint team = spawn.Team;
-				if (spawnPositionsByTeam.TryGetValue(team, out List<Vector3> spawnPoints))
-				{
-					spawnPoints.Add(spawn.transform.position);
-				}
-				else
-				{
-					spawnPositionsByTeam.Add(team, new List<Vector3>{ spawn.transform.position });
-				}
-				Destroy(spawn.gameObject);
-			}
-			_battlefieldModel = new BattlefieldModel(spawnPositionsByTeam);
-			_battlefieldModel.Start(_characters);
+			_gameStateMachine = new GameStateMachine(_gameMenuView, _characters, _spawns);
+			_uiController = new UIController(_gameStateMachine, _gameMenuView);
 		}
 
-		public void Update()
+		private void OnDestroy()
 		{
-			_battlefieldModel.Update(Time.deltaTime);
+			_gameStateMachine?.Dispose();
+			_uiController?.Dispose();
 		}
 
-
+		private void Update()
+		{
+			_gameStateMachine.Update(Time.deltaTime);
+		}
 	}
 }
