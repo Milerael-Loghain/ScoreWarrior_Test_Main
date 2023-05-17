@@ -11,14 +11,13 @@ namespace Scorewarrior.Test.Models
 	{
 		private readonly WeaponView _view;
 		private readonly EnumDictionary<WeaponStats, float> _currentStats;
+		private readonly HashSet<BulletModel> _bulletModels;
 
 		public EnumDictionary<WeaponStats, float>  CurrentStats => _currentStats;
 
 		private bool _ready;
 		private float _time;
 		private uint _ammo;
-
-		private readonly HashSet<BulletModel> _bulletModels;
 
 		public WeaponModel(WeaponView view, List<WeaponModifier> weaponModifiers)
 		{

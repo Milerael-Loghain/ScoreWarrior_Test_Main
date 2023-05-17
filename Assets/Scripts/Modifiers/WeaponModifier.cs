@@ -12,7 +12,7 @@ namespace Scorewarrior.Test.Modifiers
             WeaponMultipliers = weaponMultipliers;
         }
 
-        public virtual void Apply(EnumDictionary<WeaponStats, float> weaponStats)
+        public void Apply(EnumDictionary<WeaponStats, float> weaponStats)
         {
             foreach (var key in WeaponMultipliers.keys)
             {
